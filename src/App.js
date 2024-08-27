@@ -3,13 +3,19 @@ import './App.css';
 import 'leaflet/dist/leaflet.css';
 import MapComponent from './MapComponent';
 import DatePicker from './DatePicker'; // Import the custom DatePicker component
-import Gallery from './Gallery';
+import ImageGallery from 'react-image-gallery';
+import "react-image-gallery/styles/css/image-gallery.css";
 
+// Dynamically import all images from the images folder
 const importAllImages = (r) => {
   return r.keys().map(r);
 };
 
 const images = importAllImages(require.context('./images', false, /\.(png|jpe?g|svg)$/));
+
+
+
+
 
 function App() {
   const [reservations, setReservations] = useState([]);
@@ -180,6 +186,11 @@ function App() {
     });
   };
 
+    // Format images for react-image-gallery
+    const galleryImages = images.map(image => ({
+      original: image,
+      thumbnail: image
+    }));
 
   return (
     <div className="App">
@@ -285,7 +296,7 @@ function App() {
           <p><strong>058-560-5002</strong></p>
         </section>
         <section className="gallery">
-          <Gallery images={images} />
+          <ImageGallery items={galleryImages} showPlayButton={false} showFullscreenButton={false} showNav={false} autoPlay={true} slideInterval={3000}/>
         </section>
         <section className="map">
           <MapComponent />

@@ -128,6 +128,24 @@ li {
   width: 100%;
 }
 
+/* Image Gallery Custom Styles */
+.image-gallery {
+  max-width: 60%; 
+  margin: 0 auto 40px; 
+  margin-top: 20px;
+}
+
+.image-gallery-slide img {
+  max-height: 400px !important; 
+  border-radius: 10px; 
+}
+
+.image-gallery-thumbnail img {
+  height: 50px;
+  border-radius: 5px;
+}
+
+
 /* Map Container Styles */
 .map-container-wrapper {
   flex: 1;
@@ -165,3 +183,4 @@ li {
     font-size: 1.1em;
   }
 }
+
