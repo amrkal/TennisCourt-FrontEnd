@@ -33,7 +33,7 @@ function App() {
     '20:00', '21:00', '22:00'
   ], []);
 
-  const position = [33.260420, 35.770795];
+ // const position = [33.260420, 35.770795];
 
   const generateWeekDates = () => {
     const dates = [];
