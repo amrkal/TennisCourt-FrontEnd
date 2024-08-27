@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import React from 'react';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
@@ -7,16 +7,23 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 33.260420,  // Replace with your location latitude
-  lng: 35.770795   // Replace with your location longitude
+  lat: 33.260420,  // Replace with your location's latitude
+  lng: 35.770795   // Replace with your location's longitude
 };
 
 const MapComponent = () => {
-  const handleMapClick = useCallback(() => {
+  const handleMarkerClick = () => {
     const destination = `${center.lat},${center.lng}`;
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
-    window.open(url, '_blank');
-  }, []);
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+    const wazeUrl = `https://waze.com/ul?ll=${center.lat},${center.lng}&navigate=yes`;
+
+    // Open the user's choice of app in a new tab
+    if (window.confirm("Would you like to use Google Maps for directions?")) {
+      window.open(googleMapsUrl, '_blank');
+    } else {
+      window.open(wazeUrl, '_blank');
+    }
+  };
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyAC8MxvkSpTzAojjdk9FuCMUut9y2dfX5o">
@@ -24,9 +31,11 @@ const MapComponent = () => {
         mapContainerStyle={containerStyle}
         center={center}
         zoom={15}
-        onClick={handleMapClick}
       >
-        {/* Add any additional map components here */}
+        <Marker
+          position={center}
+          onClick={handleMarkerClick} // When the marker is clicked, open directions
+        />
       </GoogleMap>
     </LoadScript>
   );
