@@ -207,32 +207,32 @@ const filterEndTimes = (start) => {
   };
 
 
-  const addDemoReservation = () => {
-    fetch('https://tenniscourt-backend.onrender.com/add_demo_reservation', {
-      method: 'POST',
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        alert('Demo reservation added!');
-        setReservations([...reservations, {
-          firstName: "John",
-          lastName: "Doe",
-          phone: "+972500000000",
-          email: "john.doe@example.com",
-          date: "2024-09-01",  // Same date as used in the backend
-          startTime: "10:00",
-          endTime: "11:00"
-        }]);
-      } else {
-        alert('Failed to add demo reservation. Please try again.');
-      }
-    })
-    .catch(error => {
-      console.error('Error adding demo reservation:', error);
-      alert('Error occurred. Please check the console for more details.');
-    });
-  };
+  // const addDemoReservation = () => {
+  //   fetch('https://tenniscourt-backend.onrender.com/add_demo_reservation', {
+  //     method: 'POST',
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     if (data.message) {
+  //       alert('Demo reservation added!');
+  //       setReservations([...reservations, {
+  //         firstName: "John",
+  //         lastName: "Doe",
+  //         phone: "+972500000000",
+  //         email: "john.doe@example.com",
+  //         date: "2024-09-01",  // Same date as used in the backend
+  //         startTime: "10:00",
+  //         endTime: "11:00"
+  //       }]);
+  //     } else {
+  //       alert('Failed to add demo reservation. Please try again.');
+  //     }
+  //   })
+  //   .catch(error => {
+  //     console.error('Error adding demo reservation:', error);
+  //     alert('Error occurred. Please check the console for more details.');
+  //   });
+  // };
 
 
 /*  useEffect(() => {
