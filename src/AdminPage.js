@@ -4,6 +4,7 @@ import './AdminPage.css';
 
 function AdminPage() {
   const [reservations, setReservations] = useState([]);
+  const [selectedReservation, setSelectedReservation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -14,7 +15,13 @@ function AdminPage() {
       navigate('/login');  // Redirect to login if not logged in
       return;
     }
-  
+
+    fetchReservations();
+  }, [navigate]);
+
+  const fetchReservations = () => {
+    const token = localStorage.getItem('access_token');
+
     fetch('https://tenniscourt-backend.onrender.com/reservations', {
       method: 'GET',
       headers: {
@@ -39,8 +46,72 @@ function AdminPage() {
         setError(error);
         setLoading(false);
       });
-  }, [navigate]);
-  
+  };
+
+  const handleEdit = (reservation) => {
+    setSelectedReservation(reservation);
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('access_token');
+
+    fetch(`https://tenniscourt-backend.onrender.com/reservations/${selectedReservation._id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selectedReservation)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message) {
+        alert('Reservation updated successfully');
+        setSelectedReservation(null); // Clear the selected reservation after updating
+        fetchReservations(); // Reload the reservations
+      } else {
+        alert('Update failed: ' + (data.error || 'Unknown error'));
+      }
+    })
+    .catch(error => {
+      console.error('Error updating reservation:', error);
+      alert('Error occurred. Please check the console for more details.');
+    });
+  };
+
+  const handleDelete = (reservationId) => {
+    const token = localStorage.getItem('access_token');
+
+    if (window.confirm('Are you sure you want to delete this reservation?')) {
+      fetch(`https://tenniscourt-backend.onrender.com/reservations/${reservationId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Reservation deleted successfully');
+          setReservations(reservations.filter(reservation => reservation._id !== reservationId));
+        } else {
+          alert('Delete failed: ' + response.statusText);
+        }
+      })
+      .catch(error => {
+        console.error('Error deleting reservation:', error);
+        alert('Error occurred. Please check the console for more details.');
+      });
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedReservation({
+      ...selectedReservation,
+      [name]: value
+    });
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -63,6 +134,7 @@ function AdminPage() {
                 <th>Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -75,11 +147,74 @@ function AdminPage() {
                   <td>{reservation.date}</td>
                   <td>{reservation.startTime}</td>
                   <td>{reservation.endTime}</td>
+                  <td>
+                    <button onClick={() => handleEdit(reservation)}>Edit</button>
+                    <button onClick={() => handleDelete(reservation._id)}>Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </section>
+
+        {selectedReservation && (
+          <section className="edit-form">
+            <h2>Edit Reservation</h2>
+            <form onSubmit={handleUpdate}>
+              <input
+                type="text"
+                name="firstName"
+                value={selectedReservation.firstName}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="lastName"
+                value={selectedReservation.lastName}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="tel"
+                name="phone"
+                value={selectedReservation.phone}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                value={selectedReservation.email}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="date"
+                name="date"
+                value={selectedReservation.date}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="time"
+                name="startTime"
+                value={selectedReservation.startTime}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="time"
+                name="endTime"
+                value={selectedReservation.endTime}
+                onChange={handleChange}
+                required
+              />
+              <button type="submit">Update Reservation</button>
+              <button type="button" onClick={() => setSelectedReservation(null)}>Cancel</button>
+            </form>
+          </section>
+        )}
       </main>
     </div>
   );
