@@ -3,6 +3,13 @@ import './App.css';
 import 'leaflet/dist/leaflet.css';
 import MapComponent from './MapComponent';
 import DatePicker from './DatePicker'; // Import the custom DatePicker component
+import Gallery from './Gallery';
+
+const importAllImages = (r) => {
+  return r.keys().map(r);
+};
+
+const images = importAllImages(require.context('./images', false, /\.(png|jpe?g|svg)$/));
 
 function App() {
   const [reservations, setReservations] = useState([]);
@@ -173,6 +180,7 @@ function App() {
     });
   };
 
+
   return (
     <div className="App">
       <header className="App-header">
@@ -275,6 +283,9 @@ function App() {
           <h2>Contact Us</h2>
           <p>If you have any questions or need assistance, please call us at:</p>
           <p><strong>058-560-5002</strong></p>
+        </section>
+        <section className="gallery">
+          <Gallery images={images} />
         </section>
         <section className="map">
           <MapComponent />
