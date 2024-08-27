@@ -52,6 +52,8 @@ function AdminPage() {
     setSelectedReservation(reservation);
   };
 
+  
+
   const handleUpdate = (e) => {
     e.preventDefault();
     const token = localStorage.getItem('access_token');
@@ -59,7 +61,6 @@ function AdminPage() {
     fetch(`https://tenniscourt-backend.onrender.com/reservations/${selectedReservation._id}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(selectedReservation)
@@ -79,6 +80,7 @@ function AdminPage() {
       alert('Error occurred. Please check the console for more details.');
     });
   };
+  
 
   const handleDelete = (reservationId) => {
     const token = localStorage.getItem('access_token');
@@ -86,9 +88,6 @@ function AdminPage() {
     if (window.confirm('Are you sure you want to delete this reservation?')) {
       fetch(`https://tenniscourt-backend.onrender.com/reservations/${reservationId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
       })
       .then(response => {
         if (response.ok) {
@@ -104,6 +103,7 @@ function AdminPage() {
       });
     }
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
