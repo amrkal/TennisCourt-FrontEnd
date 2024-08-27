@@ -1,4 +1,4 @@
-/* General Styles */
+General Styles
 .App {
   font-family: Arial, sans-serif;
   text-align: center;
@@ -28,41 +28,13 @@
 main {
   flex: 1;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Form and Map Wrapper */
-.content-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* Map Container Styles */
-.map-container-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px; /* Space between map and footer */
-}
-
-.map-container {
-  width: 100%;
-  max-width: 600px;
-  height: 50vh; /* Adjust height relative to the viewport */
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Form Elements Styles */
-.reservation-form {
+.reservation-form,
+.reservations-list {
   margin: 30px auto;
   max-width: 600px;
   background-color: white;
@@ -71,6 +43,7 @@ main {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Elements Styles */
 form input,
 form select,
 form button {
@@ -111,12 +84,23 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background-color: #45a049;
+  background-color: #45a049; /* Slightly darker green */
   transform: translateY(-2px);
 }
 
 button:active {
   transform: translateY(0);
+}
+
+/* List Styles */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
 }
 
 /* Footer Styles */
@@ -129,6 +113,23 @@ button:active {
   width: 100%;
   z-index: 10;
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Map Container Styles */
+.map-container-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px; /* Ensure space between map and footer */
+}
+
+.map-container {
+  width: 100%;
+  max-width: 600px;
+  height: 60vh;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Contact Info Styles */
@@ -147,9 +148,9 @@ button:active {
 @media (max-width: 768px) {
   .map-container {
     width: 100%;
-    height: 300px;
+    height: 300px; /* Adjusted for smaller screens */
   }
-
+  
   .reservation-form {
     max-width: 90%;
     padding: 20px;
