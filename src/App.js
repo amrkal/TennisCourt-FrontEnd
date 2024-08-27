@@ -92,7 +92,7 @@ useEffect(() => {
       })
       .catch(error => console.error('Error fetching reservations:', error));
   }
-}, [date]);
+}, [date,hourSlots]);
 
 const filterEndTimes = (start) => {
   return hourSlots.filter(slot =>
