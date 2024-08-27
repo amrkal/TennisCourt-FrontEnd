@@ -54,32 +54,43 @@ function AdminPage() {
 
   
 
-  const handleUpdate = (e) => {
+const handleUpdate = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('access_token');
+
+    const updatedReservation = {
+        firstName: selectedReservation.firstName,
+        lastName: selectedReservation.lastName,
+        phone: selectedReservation.phone,
+        email: selectedReservation.email,
+        date: selectedReservation.date,
+        startTime: selectedReservation.startTime,
+        endTime: selectedReservation.endTime
+    };
 
     fetch(`https://tenniscourt-backend.onrender.com/reservations/${selectedReservation._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(selectedReservation)
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedReservation)
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        alert('Reservation updated successfully');
-        setSelectedReservation(null); // Clear the selected reservation after updating
-        fetchReservations(); // Reload the reservations
-      } else {
-        alert('Update failed: ' + (data.error || 'Unknown error'));
-      }
+    .then(response => {
+        if (response.ok) {
+            alert('Reservation updated successfully');
+            setSelectedReservation(null);  // Clear the selected reservation after updating
+            fetchReservations();  // Reload the reservations list
+        } else {
+            return response.json().then(data => {
+                throw new Error(data.error || 'Update failed');
+            });
+        }
     })
     .catch(error => {
-      console.error('Error updating reservation:', error);
-      alert('Error occurred. Please check the console for more details.');
+        console.error('Error updating reservation:', error);
+        alert('Error occurred. Please check the console for more details.');
     });
-  };
+};
+
   
 
   const handleDelete = (reservationId) => {
