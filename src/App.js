@@ -52,7 +52,8 @@ function App() {
             throw new Error('Unexpected data format');
           }
           setReservations(data); // Set reservations state
-          const bookedTimes = data.map(reservation => ({
+          const reservationsForDate = data.filter(reservation => reservation.date === date);
+          const bookedTimes = reservationsForDate.map(reservation => ({
             startTime: reservation.startTime,
             endTime: reservation.endTime,
           }));
@@ -72,16 +73,22 @@ function App() {
   const filterEndTimes = (start) => {
     console.log("Selected start time:", start);
   
-    if (!start) return [];
-    // Find the next reservation that starts after the selected start time
-    const nextReservation = reservations
+    if (!start || !date) return [];
+    
+    // Filter reservations to include only those on the selected date
+    const reservationsForDate = reservations.filter(reservation => reservation.date === date);
+  
+    // Find the next reservation that starts after the selected start time on the selected date
+    const nextReservation = reservationsForDate
       .filter(reservation => reservation.startTime > start)
       .sort((a, b) => a.startTime.localeCompare(b.startTime))[0];
+    
     // Determine the end limit based on the next reservation or default to end of the day
     const endLimit = nextReservation ? nextReservation.startTime : hourSlots[hourSlots.length - 1];
+    
     // Filter available end times to ensure they are greater than the start time and less than or equal to the end limit
     const availableEndTimes = hourSlots.filter(slot => slot > start && slot <= endLimit);
-
+  
     return availableEndTimes;
   };
   
