@@ -97,17 +97,13 @@ function App() {
   
 
   const sendVerification = () => {
-    let formattedPhone = phone;
-    if (!formattedPhone.startsWith('+')) {
-      formattedPhone = '+972' + formattedPhone.slice(1);
-    }
 
     fetch('https://tenniscourt-backend.onrender.com/send_verification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ phone: formattedPhone }),
+      body: JSON.stringify({ phone: phone }),
     })
     .then(response => response.json())
     .then(data => {
