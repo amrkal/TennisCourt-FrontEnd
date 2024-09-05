@@ -1,32 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Netlify CMS</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Web site created using create-react-app" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="description" content="Web app created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!-- Add Netlify CMS script -->
-    <script src="https://unpkg.com/netlify-cms-app/dist/netlify-cms.js"></script>
-    <style>
-      /* Add any custom styles for the CMS interface here */
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-      }
-    </style>
+    <title>Your React App</title>
   </head>
   <body>
-    <!-- Ensure CMS script runs -->
-    <script>
-      if (window.CMS) {
-        CMS.init();
-      }
-    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!-- The bundled JS and CSS files will be injected here during the build process -->
   </body>
 </html>
