@@ -16,18 +16,13 @@ function AdminPage() {
       return;
     }
 
-    fetchReservations();
-  }, [navigate]);
-
-  const fetchReservations = () => {
-    const token = localStorage.getItem('access_token');
-
-    fetch('https://tenniscourt-backend.onrender.com/reservations', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    const fetchReservations = () => {
+      fetch('https://tenniscourt-backend.onrender.com/reservations', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(response => {
         if (response.status === 401) {  // Check if unauthorized
           navigate('/login');
@@ -46,52 +41,51 @@ function AdminPage() {
         setError(error);
         setLoading(false);
       });
-  };
+    };
+
+    fetchReservations();
+  }, [navigate]);
 
   const handleEdit = (reservation) => {
     setSelectedReservation(reservation);
   };
 
-  
-
-const handleUpdate = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
 
     const updatedReservation = {
-        firstName: selectedReservation.firstName,
-        lastName: selectedReservation.lastName,
-        phone: selectedReservation.phone,
-        email: selectedReservation.email,
-        date: selectedReservation.date,
-        startTime: selectedReservation.startTime,
-        endTime: selectedReservation.endTime
+      firstName: selectedReservation.firstName,
+      lastName: selectedReservation.lastName,
+      phone: selectedReservation.phone,
+      email: selectedReservation.email,
+      date: selectedReservation.date,
+      startTime: selectedReservation.startTime,
+      endTime: selectedReservation.endTime
     };
 
     fetch(`https://tenniscourt-backend.onrender.com/reservations/${selectedReservation._id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedReservation)
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedReservation)
     })
     .then(response => {
-        if (response.ok) {
-            alert('Reservation updated successfully');
-            setSelectedReservation(null);  // Clear the selected reservation after updating
-            fetchReservations();  // Reload the reservations list
-        } else {
-            return response.json().then(data => {
-                throw new Error(data.error || 'Update failed');
-            });
-        }
+      if (response.ok) {
+        alert('Reservation updated successfully');
+        setSelectedReservation(null);  // Clear the selected reservation after updating
+        fetchReservations();  // Reload the reservations list
+      } else {
+        return response.json().then(data => {
+          throw new Error(data.error || 'Update failed');
+        });
+      }
     })
     .catch(error => {
-        console.error('Error updating reservation:', error);
-        alert('Error occurred. Please check the console for more details.');
+      console.error('Error updating reservation:', error);
+      alert('Error occurred. Please check the console for more details.');
     });
-};
-
-  
+  };
 
   const handleDelete = (reservationId) => {
     const token = localStorage.getItem('access_token');
@@ -114,7 +108,6 @@ const handleUpdate = (e) => {
       });
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
