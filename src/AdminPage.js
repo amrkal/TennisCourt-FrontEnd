@@ -9,39 +9,41 @@ function AdminPage() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const fetchReservations = () => {
+    const token = localStorage.getItem('access_token');
+
+    fetch('https://tenniscourt-backend.onrender.com/reservations', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      if (response.status === 401) {  // Check if unauthorized
+        navigate('/login');
+        return;
+      }
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setReservations(data);
+      setLoading(false);
+    })
+    .catch(error => {
+      setError(error);
+      setLoading(false);
+    });
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (!token) {
       navigate('/login');  // Redirect to login if not logged in
       return;
     }
-
-    const fetchReservations = () => {
-      fetch('https://tenniscourt-backend.onrender.com/reservations', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      .then(response => {
-        if (response.status === 401) {  // Check if unauthorized
-          navigate('/login');
-          return;
-        }
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setReservations(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error);
-        setLoading(false);
-      });
-    };
 
     fetchReservations();
   }, [navigate]);
