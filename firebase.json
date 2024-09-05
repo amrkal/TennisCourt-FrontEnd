@@ -1,23 +1,6 @@
 {
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
-      ],
-      "predeploy": [
-        "echo 'Skipping linting' && exit 0"  // Skips linting
-      ]
-    }
-  ],
   "hosting": {
-    "site": "tennisroof",
-    "public": "public",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
