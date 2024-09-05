@@ -5,7 +5,7 @@ import MapComponent from './MapComponent';
 import DatePicker from './DatePicker'; // Import the custom DatePicker component
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
-
+import LoginPage from './LoginPage'
 // Dynamically import all images from the images folder
 const importAllImages = (r) => {
   return r.keys().map(r);
